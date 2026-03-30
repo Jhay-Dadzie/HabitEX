@@ -1,0 +1,22 @@
+{
+  "name": "habitex",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "frontend": "cd frontend && npm start",
+    "backend": "cd backend && npm run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jhay-Dadzie/HabitEX.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Jhay-Dadzie/HabitEX/issues"
+  },
+  "homepage": "https://github.com/Jhay-Dadzie/HabitEX#readme"
+}
