@@ -1,25 +1,20 @@
 import { Tabs } from "expo-router";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { Colors } from "@/constants/theme";
+import { useTabStyle } from "@/components/globalStyles/tabStyle";
 import { Ionicons } from "@expo/vector-icons"
 import { CircleUserRound, Heart, House, MessageSquare } from "lucide-react-native"
 
 export default function Layout() {
     const colorScheme = useColorScheme();
+    const tabStyle = useTabStyle();
 
     return (
         <Tabs screenOptions={{
             tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-            headerStyle: {
-                backgroundColor: Colors[colorScheme ?? 'light'].background,
-                borderBottomWidth: 1,
-                borderBottomColor: colorScheme === 'dark' ? '#1E293B' : '#E2E8F0'
-            },
-            tabBarStyle: {
-                backgroundColor: Colors[colorScheme ?? 'light'].background,
-                borderTopWidth: 1,
-                borderTopColor: colorScheme === 'dark' ? '#1E293B' : '#E2E8F0'
-            }
+            headerStyle: tabStyle.headerStyle,
+            tabBarStyle: tabStyle.tabBarStyle,
+            
         }}>
             <Tabs.Screen name="index" options={{
                 title: "Home",

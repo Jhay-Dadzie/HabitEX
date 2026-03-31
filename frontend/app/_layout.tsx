@@ -9,9 +9,10 @@ export default function RootLayout() {
   const colorScheme = useColorScheme()
   return (
     
-    <ThemeProvider value={colorScheme == 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name='(tenantScreens)' options={{headerShown: false}} />
+        <Stack.Screen name='(landlordScreens)' options={{headerShown: false}} />
       </Stack>
       <StatusBar style='auto'/>
     </ThemeProvider>
