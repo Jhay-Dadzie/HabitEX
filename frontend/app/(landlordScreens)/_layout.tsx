@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { Colors } from "@/constants/theme";
-import { useTabStyle } from "@/components/globalStyles/tabStyle";
+import { useTabStyle } from "@/components/globalStyles/navStyle";
 import { CircleUserRound, Landmark, LayoutDashboard, MessageSquare } from "lucide-react-native"
 
 export default function Layout() {

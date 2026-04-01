@@ -10,9 +10,10 @@ export default function RootLayout() {
   return (
     
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name='(tenantScreens)' options={{headerShown: false}} />
-        <Stack.Screen name='(landlordScreens)' options={{headerShown: false}} />
+      <Stack screenOptions={{headerShown: false}}>
+        <Stack.Screen name='(onboarding)'/>
+        <Stack.Screen name='(tenantScreens)'/>
+        <Stack.Screen name='(landlordScreens)'/>
       </Stack>
       <StatusBar style='auto'/>
     </ThemeProvider>

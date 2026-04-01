@@ -1,19 +1,19 @@
 import { Tabs } from "expo-router";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { Colors } from "@/constants/theme";
-import { useTabStyle } from "@/components/globalStyles/tabStyle";
+import { useTabStyle } from "@/components/globalStyles/navStyle";
 import { Ionicons } from "@expo/vector-icons"
 import { CircleUserRound, Heart, House, MessageSquare } from "lucide-react-native"
 
 export default function Layout() {
     const colorScheme = useColorScheme();
-    const tabStyle = useTabStyle();
+    const navStyle = useTabStyle();
 
     return (
         <Tabs screenOptions={{
             tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-            headerStyle: tabStyle.headerStyle,
-            tabBarStyle: tabStyle.tabBarStyle,
+            headerStyle: navStyle.headerStyle,
+            tabBarStyle: navStyle.tabBarStyle,
             
         }}>
             <Tabs.Screen name="index" options={{
