@@ -1,6 +1,6 @@
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { Colors } from "@/constants/theme";
-import { Pressable, StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { ThemedText } from "./themed-text";
 
 type buttonProps = {
@@ -11,7 +11,7 @@ export default function Button({ buttonPlaceholder, action }: buttonProps) {
     const colorScheme = useColorScheme()
     return (
         <TouchableOpacity activeOpacity={0.8} onPress={action} style={[styles.button, {backgroundColor: Colors[colorScheme ?? 'light'].tint}]}>
-            <ThemedText type="defaultSemiBold" style={{color: '#fff'}}>{buttonPlaceholder}</ThemedText>
+            <ThemedText style={styles.placeholderText}>{buttonPlaceholder}</ThemedText>
         </TouchableOpacity>
     )
 }
@@ -29,7 +29,12 @@ const styles = StyleSheet.create({
         shadowOffset: {width: 0, height: 2},
         elevation: 5
 
-        
     },
+
+    placeholderText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 600
+    }
     
 })

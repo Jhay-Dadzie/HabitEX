@@ -4,6 +4,7 @@ import { ThemedView } from '@/components/themed-view';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Colors } from '@/constants/theme';
 import Button  from '@/components/button';
+import usePageStyles from '@/components/globalStyles/pageStyle';
 import {
   FlatList,
   Dimensions,
@@ -12,7 +13,6 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   Animated,
-  Pressable,
 } from 'react-native';
 import { Link, router } from 'expo-router';
 
@@ -64,8 +64,8 @@ export default function OnboardingScreen() {
       }).start();
     });
   }, [currentIndex]);
-  const oppositeColor = colorScheme === 'light' ? Colors.light.contrastColor : Colors.dark.contrastColor
-  const oppositeTextColor = colorScheme === 'light' ? Colors.light.text : Colors.dark.text
+
+  const colorThemeRenderer= usePageStyles()
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const index = Math.round(
@@ -81,8 +81,8 @@ export default function OnboardingScreen() {
           <Image source={item.image} style={styles.image} />
         </ThemedView>
 
-        <ThemedText type='title' style={[styles.title, {color: oppositeColor}]}>{item.title}</ThemedText>
-        <ThemedText type='description' style={[styles.description, {color: oppositeTextColor}]}>{item.description}</ThemedText>
+        <ThemedText type='title' style={[styles.title, {color: colorThemeRenderer.oppositeTextColor}]}>{item.title}</ThemedText>
+        <ThemedText type='description' style={[styles.description]}>{item.description}</ThemedText>
       </ThemedView>
     );
   };
@@ -188,7 +188,6 @@ const styles = StyleSheet.create({
   image: {
     width: '90%',
     height: '90%',
-    // resizeMode: 'contain',
     borderRadius: 24
   },
 
@@ -199,7 +198,6 @@ const styles = StyleSheet.create({
 
   description: {
     textAlign: 'center',
-    color: '#666',
     lineHeight: 30
   },
 
