@@ -3,6 +3,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Colors } from '@/constants/theme';
+import Button  from '@/components/button';
 import {
   FlatList,
   Dimensions,
@@ -11,8 +12,9 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   Animated,
+  Pressable,
 } from 'react-native';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 
 const { width } = Dimensions.get('window');
 
@@ -75,7 +77,7 @@ export default function OnboardingScreen() {
   const renderItem = ({ item }: { item: Slide }) => {
     return (
       <ThemedView style={styles.slide}>
-        <ThemedView style={styles.card}>
+        <ThemedView style={[styles.card, {backgroundColor: colorScheme === 'light' ? '#EDEBFF' : Colors.dark.complementaryColor}]}>
           <Image source={item.image} style={styles.image} />
         </ThemedView>
 
@@ -140,6 +142,15 @@ export default function OnboardingScreen() {
           })}
         </ThemedView>
       </ThemedView>
+
+      {
+        currentIndex === 2 && (
+          <ThemedView style={{marginTop: 30}}>
+            <Button buttonPlaceholder='Get Started' action={() => router.push('/role')} />
+          </ThemedView>
+        )
+      }
+
       
     </ThemedView>
   );
@@ -168,8 +179,7 @@ const styles = StyleSheet.create({
   card: {
     width: '100%',
     height: 280,
-    backgroundColor: '#EDEBFF',
-    borderRadius: 20,
+    borderRadius: 24,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 30,
@@ -178,7 +188,7 @@ const styles = StyleSheet.create({
   image: {
     width: '90%',
     height: '90%',
-    resizeMode: 'contain',
+    // resizeMode: 'contain',
     borderRadius: 24
   },
 
@@ -196,7 +206,7 @@ const styles = StyleSheet.create({
   pagination: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 20,
+    marginTop: 170,
   },
 
   dot: {
