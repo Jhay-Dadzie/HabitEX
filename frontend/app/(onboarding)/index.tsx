@@ -4,7 +4,7 @@ import { ThemedView } from '@/components/themed-view';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Colors } from '@/constants/theme';
 import Button  from '@/components/button';
-import usePageStyles from '@/components/globalStyles/pageStyle';
+import usePageStyles from '@/components/globalStyles/pageThemeRender';
 import {
   FlatList,
   Dimensions,
@@ -15,6 +15,7 @@ import {
   Animated,
 } from 'react-native';
 import { Link, router } from 'expo-router';
+import { MoveRight } from 'lucide-react-native';
 
 const { width } = Dimensions.get('window');
 
@@ -146,7 +147,10 @@ export default function OnboardingScreen() {
       {
         currentIndex === 2 && (
           <ThemedView style={{marginTop: 30}}>
-            <Button buttonPlaceholder='Get Started' action={() => router.push('/role')} />
+            <Button action={() => router.push('/role')}>
+              <ThemedText type='placeholderText'>Get Started</ThemedText>
+              <MoveRight color={'#fff'}/>
+            </Button>
           </ThemedView>
         )
       }

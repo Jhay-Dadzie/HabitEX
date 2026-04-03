@@ -7,26 +7,26 @@ import { useColorScheme } from '@/hooks/use-color-scheme'
 import { useState } from 'react'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import usePageStyles from '@/components/globalStyles/pageStyle'
+import useThemeRender from '@/components/globalStyles/pageThemeRender'
 import Button from '@/components/button'
+import { PageStyles } from '@/components/globalStyles/pageStyles'
 import { MoveRight } from 'lucide-react-native'
-
 export default function Role() {
   const router = useRouter()
   const colorScheme = useColorScheme()
-  const colorThemeRenderer = usePageStyles()
+  const colorThemeRenderer = useThemeRender()
   const [selectedRole, setSelectedRole] = useState<'seeker' | 'landlord' | null>(null)
   
   const navigateToScreen = () => {
     if (selectedRole === 'landlord') {
-      router.push('/(landlordScreens)')
+      router.push('/auth/(landlordAuth)')
     } else {
-      router.push('/(tenantScreens)')
+      router.push('/auth/seekerSignUp')
     }
   }
 
   return (
-    <SafeAreaView style={[styles.container, {backgroundColor: Colors[colorScheme ?? 'light'].background}]}>
+    <SafeAreaView style={[PageStyles.container, {backgroundColor: Colors[colorScheme ?? 'light'].background}]}>
       <ThemedView>
         <ThemedText type='title'>Logo</ThemedText>
       </ThemedView>
@@ -71,7 +71,10 @@ export default function Role() {
       {
         selectedRole && (
           <ThemedView style={{marginBottom: 50}}>
-            <Button buttonPlaceholder='Proceed' action={navigateToScreen}/>
+            <Button action={navigateToScreen}>
+              <ThemedText type='placeholderText'>Proceed</ThemedText>
+              <MoveRight color={'#fff'}/>
+            </Button>
           </ThemedView>            
         )
       }
@@ -81,10 +84,6 @@ export default function Role() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 5,
-  },
   headerContainer: {
     flexDirection: 'column',
     alignItems: 'center',
