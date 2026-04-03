@@ -4,18 +4,21 @@ import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme()
   return (
-    
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack screenOptions={{headerShown: false}}>
-        <Stack.Screen name='(onboarding)'/>
-        <Stack.Screen name='(tenantScreens)'/>
-        <Stack.Screen name='(landlordScreens)'/>
-      </Stack>
-      <StatusBar style='auto'/>
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <Stack screenOptions={{headerShown: false}}>
+          <Stack.Screen name='(onboarding)'/>
+          <Stack.Screen name='(tenantScreens)'/>
+          <Stack.Screen name='(landlordScreens)'/>
+          <Stack.Screen name='auth'/>
+        </Stack>
+        <StatusBar style='auto'/>
+      </ThemeProvider>
+    </SafeAreaProvider>
   )
 }
