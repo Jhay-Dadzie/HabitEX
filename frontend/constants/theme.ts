@@ -25,7 +25,7 @@ export const Colors = {
     tabIconSelected: tintColorDark,
     complementaryColor: tintColorDark,
     contrastColor: '#fff',
-    borderColor: '#1E293B'
+    borderColor: '#334155'
   },
 };
 

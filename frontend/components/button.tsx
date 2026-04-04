@@ -1,8 +1,6 @@
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { Colors } from "@/constants/theme";
 import { StyleSheet, TouchableOpacity } from "react-native";
-import { ThemedText } from "./themed-text";
-import { ThemedView } from "./themed-view";
 import { View } from "react-native";
 
 type buttonProps = {
@@ -24,7 +22,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingVertical: 20,
-        marginHorizontal: 20,
         borderRadius: 28,
         shadowColor: '#000',
         shadowOpacity: 0.5,
