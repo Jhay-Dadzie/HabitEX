@@ -4,8 +4,7 @@ import React from 'react'
 export const PageStyles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingHorizontal: 10,
-        justifyContent: 'center'
+        paddingHorizontal: 10
     },
     formContainer: {
         flex: 1,

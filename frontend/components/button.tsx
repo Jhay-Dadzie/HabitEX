@@ -2,6 +2,7 @@ import { useColorScheme } from "@/hooks/use-color-scheme";
 import { Colors } from "@/constants/theme";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { View } from "react-native";
+import { useState } from "react";
 
 type buttonProps = {
     children: React.ReactNode,
