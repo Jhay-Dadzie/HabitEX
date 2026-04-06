@@ -53,4 +53,8 @@ export const PageStyles = StyleSheet.create({
     textInput: {
         flex: 1
     },
+    errorText: {
+        color: 'red',
+        marginTop: -5
+    }
 })

@@ -6,12 +6,23 @@ import { useState } from "react";
 
 type buttonProps = {
     children: React.ReactNode,
-    action?: () => void
+    action?: () => void,
+    disabled?: boolean
 }
-export default function Button({ children, action }: buttonProps) {
+export default function Button({ children, action, disabled }: buttonProps) {
     const colorScheme = useColorScheme()
     return (
-        <TouchableOpacity activeOpacity={0.8} onPress={action} style={[styles.button, {backgroundColor: Colors[colorScheme ?? 'light'].tint}]}>
+        <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={disabled ? undefined : action}
+            disabled={disabled}
+            style={[styles.button,
+                {
+                    backgroundColor: disabled ? '#A0A0A0' : Colors[colorScheme ?? 'light'].tint,
+                    opacity: disabled ? 0.6 : 1
+                }
+            ]}
+        >
             <View style={styles.childrenStyle}>{children}</View>
         </TouchableOpacity>
     )
@@ -36,8 +47,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 15
-        
-        
     }
     
 })

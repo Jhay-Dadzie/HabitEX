@@ -1,4 +1,4 @@
-import { StyleSheet, TextInput, View, Pressable, ScrollView, KeyboardAvoidingView, Platform } from 'react-native'
+import { StyleSheet, TextInput, View, Pressable, ScrollView, KeyboardAvoidingView, Platform, Text } from 'react-native'
 import { ThemedText } from '@/components/themed-text'
 import { ThemedView } from '@/components/themed-view'
 import React, { useState } from 'react'
@@ -20,7 +20,33 @@ export default function SeekerSignUp() {
     const [email, setEmail] = useState('')
     const [phoneNumber, setPhoneNumber] = useState('')
     const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    
+    const [error, setError] = useState({
+        fullName: '',
+        email: '',
+        phoneNumber: '',
+        password: '',
+        confirmPassword: ''
+    })
     const [agreed, setAgreed] = useState(false);
+    const isValid = fullName && email && phoneNumber && password && confirmPassword && agreed
+
+    const handleSubmit= () => {
+        const newErrors = {
+            fullName: !fullName ? 'Full name is required' : '',
+            email: !email ? 'Email is required' : '',
+            phoneNumber: !phoneNumber ? 'Phone number is required' : '',
+            password: !password ? 'Password is required' : '',
+            confirmPassword: !confirmPassword ? 'Re-enter password to confirm' : '',
+        }
+        setError(newErrors)
+
+
+        if (Object.values(newErrors).some(e => e)) return;
+
+        router.replace('/(tenantScreens)')
+    }
     
     return (
         <SafeAreaView style={[PageStyles.container, {backgroundColor: Colors[colorScheme ?? 'light'].background}]}>
@@ -49,7 +75,7 @@ export default function SeekerSignUp() {
                         <ThemedView>
                             <ThemedText style={[PageStyles.label, {color: colorThemeRenderer.label}]}>Full Name</ThemedText>
                             <ThemedView style={[PageStyles.inputContainer, {
-                                borderColor: colorThemeRenderer.borderColor,
+                                borderColor: error.fullName ? 'red' : colorThemeRenderer.borderColor,
                                 backgroundColor: colorScheme === 'light' ? '#F8FAFC' : '#1E293B'
                             }]}>
                                 <UserRound size={24} color={Colors[colorScheme ?? 'light'].icon}/>
@@ -58,32 +84,49 @@ export default function SeekerSignUp() {
                                     }]} 
                                     placeholder='John Doe'
                                     placeholderTextColor={colorThemeRenderer.fontColor}
+                                    value={fullName}
+                                    onChangeText={setFullName}
                                 />
                             </ThemedView>
+                            
+                            {error.fullName && (
+                                <ThemedText style={PageStyles.errorText}>
+                                    {error.fullName}
+                                </ThemedText>
+                            )}
                         </ThemedView>
 
                         {/* Email Address */}
                         <ThemedView>
                             <ThemedText style={[PageStyles.label, {color: colorThemeRenderer.label}]}>Email Address</ThemedText>
                             <ThemedView style={[PageStyles.inputContainer, {
-                                borderColor: colorThemeRenderer.borderColor,
+                                borderColor: error.email ? 'red' : colorThemeRenderer.borderColor,
                                 backgroundColor: colorScheme === 'light' ? '#F8FAFC' : '#1E293B'
                             }]}>
                                 <Mail size={24} color={Colors[colorScheme ?? 'light'].icon}/>
                                 <TextInput style={[PageStyles.textInput, {
-                                        color: colorThemeRenderer.fontColor
+                                        color:  colorThemeRenderer.fontColor
                                     }]} 
                                     placeholder='example@gmail.com'
                                     placeholderTextColor={colorThemeRenderer.fontColor}
+                                    value={email}
+                                    onChangeText={setEmail}
+                                    inputMode='email'
                                 />
                             </ThemedView>
+
+                            {error.email && (
+                                <ThemedText style={PageStyles.errorText}>
+                                    {error.email}
+                                </ThemedText>
+                            )}
                         </ThemedView>
 
                         {/* Phone Number */}
                         <ThemedView>
                             <ThemedText style={[PageStyles.label, {color: colorThemeRenderer.label}]}>Phone Number</ThemedText>
                             <ThemedView style={[PageStyles.inputContainer, {
-                                borderColor: colorThemeRenderer.borderColor,
+                                borderColor: error.phoneNumber ? 'red' : colorThemeRenderer.borderColor,
                                 backgroundColor: colorScheme === 'light' ? '#F8FAFC' : '#1E293B'
                             }]}>
                                 <Phone size={24} color={Colors[colorScheme ?? 'light'].icon}/>
@@ -92,15 +135,24 @@ export default function SeekerSignUp() {
                                     }]} 
                                     placeholder='+1 (123) 456-7890'
                                     placeholderTextColor={colorThemeRenderer.fontColor}
+                                    value={phoneNumber}
+                                    onChangeText={setPhoneNumber}
+                                    inputMode='tel'
                                 />
                             </ThemedView>
+
+                            {error.phoneNumber && (
+                                <ThemedText style={PageStyles.errorText}>
+                                    {error.phoneNumber}
+                                </ThemedText>
+                            )}
                         </ThemedView>
 
                         {/* Password */}
                         <ThemedView>
                             <ThemedText style={[PageStyles.label, {color: colorThemeRenderer.label}]}>Password</ThemedText>
                             <ThemedView style={[PageStyles.inputContainer, {
-                                borderColor: colorThemeRenderer.borderColor,
+                                borderColor: error.password ? 'red' : colorThemeRenderer.borderColor,
                                 backgroundColor: colorScheme === 'light' ? '#F8FAFC' : '#1E293B'
                             }]}>
                                 <LockKeyhole size={24} color={Colors[colorScheme ?? 'light'].icon}/>
@@ -110,15 +162,23 @@ export default function SeekerSignUp() {
                                     placeholder='Enter your password'
                                     placeholderTextColor={colorThemeRenderer.fontColor}
                                     secureTextEntry
+                                    value={password}
+                                    onChangeText={setPassword}
                                 />
                             </ThemedView>
+
+                            {error.password && (
+                                <ThemedText style={PageStyles.errorText}>
+                                    {error.password}
+                                </ThemedText>
+                            )}
                         </ThemedView>
 
                         {/* Confirm Password*/}
                         <ThemedView>
                             <ThemedText style={[PageStyles.label, {color: colorThemeRenderer.label}]}>Confirm Password</ThemedText>
                             <ThemedView style={[PageStyles.inputContainer, {
-                                borderColor: colorThemeRenderer.borderColor,
+                                borderColor: error.confirmPassword ? 'red' : colorThemeRenderer.borderColor,
                                 backgroundColor: colorScheme === 'light' ? '#F8FAFC' : '#1E293B'
                             }]}>
                                 <LockKeyhole size={24} color={Colors[colorScheme ?? 'light'].icon}/>
@@ -128,8 +188,16 @@ export default function SeekerSignUp() {
                                     placeholder='Confirm Password'
                                     placeholderTextColor={colorThemeRenderer.fontColor}
                                     secureTextEntry
+                                    value={confirmPassword}
+                                    onChangeText={setConfirmPassword}
                                 />
                             </ThemedView>
+
+                            {error.confirmPassword && (
+                                <ThemedText style={PageStyles.errorText}>
+                                    {error.confirmPassword}
+                                </ThemedText>
+                            )}
                         </ThemedView>
                     </ThemedView>
 
@@ -168,10 +236,12 @@ export default function SeekerSignUp() {
                                 <ThemedText type='link'> Privacy Policy</ThemedText>
                             </ThemedText>
                         </Pressable>
-                        
                     </ThemedView>
                     
-                    <Button action={() => router.push('/(tenantScreens)')}>
+                    <Button
+                        action={handleSubmit}
+                        disabled={!agreed}
+                    >
                         <ThemedText type='placeholderText'>Sign Up</ThemedText>
                     </Button>
                 </ScrollView>
