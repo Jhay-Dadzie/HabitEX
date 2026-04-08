@@ -56,5 +56,12 @@ export const PageStyles = StyleSheet.create({
     errorText: {
         color: 'red',
         marginTop: -5
+    },
+    bottomFormText: {
+        flexDirection: "row",
+        alignItems: 'center',
+        gap: 6,
+        alignSelf: 'center',
+        marginTop: 15
     }
 })

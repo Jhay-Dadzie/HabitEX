@@ -5,10 +5,10 @@ import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { PageStyles } from '@/components/globalStyles/pageStyles'
 import Button from '@/components/button'
-import { useRouter } from 'expo-router'
+import { Link, useRouter } from 'expo-router'
 import { Colors } from '@/constants/theme'
 import { useColorScheme } from '@/hooks/use-color-scheme'
-import { LockKeyhole, Mail, Phone, UserRound } from 'lucide-react-native'
+import { Eye, EyeClosed, LockKeyhole, Mail, Phone, UserRound } from 'lucide-react-native'
 import usePageThemeRender  from '@/components/globalStyles/pageThemeRender'
 
 export default function SeekerSignUp() {
@@ -21,6 +21,7 @@ export default function SeekerSignUp() {
     const [phoneNumber, setPhoneNumber] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+    const [viewPassword, setViewPassword] = useState(true)
     
     const [error, setError] = useState({
         fullName: '',
@@ -161,10 +162,20 @@ export default function SeekerSignUp() {
                                     }]} 
                                     placeholder='Enter your password'
                                     placeholderTextColor={colorThemeRenderer.fontColor}
-                                    secureTextEntry
+                                    secureTextEntry={viewPassword}
                                     value={password}
                                     onChangeText={setPassword}
                                 />
+                                <Pressable onPress={() => setViewPassword(prev => !prev)}
+                                    style={{marginRight: 8}}
+                                >
+                                    {
+                                        viewPassword === true ? (<EyeClosed color={Colors[colorScheme ?? 'light'].icon}/>)
+                                        : (<Eye color={Colors[colorScheme ?? 'light'].icon}/>)
+                                        
+                                    }
+                                </Pressable>
+                                
                             </ThemedView>
 
                             {error.password && (
@@ -187,10 +198,20 @@ export default function SeekerSignUp() {
                                     }]} 
                                     placeholder='Confirm Password'
                                     placeholderTextColor={colorThemeRenderer.fontColor}
-                                    secureTextEntry
+                                    secureTextEntry = {viewPassword}
                                     value={confirmPassword}
                                     onChangeText={setConfirmPassword}
                                 />
+
+                                <Pressable onPress={() => setViewPassword(prev => !prev)}
+                                    style={{marginRight: 8}}
+                                >
+                                    {
+                                        viewPassword === true ? (<EyeClosed color={Colors[colorScheme ?? 'light'].icon}/>)
+                                        : (<Eye color={Colors[colorScheme ?? 'light'].icon}/>)
+                                        
+                                    }
+                                </Pressable>
                             </ThemedView>
 
                             {error.confirmPassword && (
@@ -244,6 +265,13 @@ export default function SeekerSignUp() {
                     >
                         <ThemedText type='placeholderText'>Sign Up</ThemedText>
                     </Button>
+
+                    <ThemedView style={PageStyles.bottomFormText}>
+                        <ThemedText type='description'>Already have an account?</ThemedText>
+                        <Link href={'/auth'} asChild>
+                            <ThemedText type='link'>Login</ThemedText>
+                        </Link>
+                    </ThemedView>
                 </ScrollView>
             </KeyboardAvoidingView>
         </SafeAreaView>
