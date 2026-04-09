@@ -7,7 +7,6 @@ export const PageStyles = StyleSheet.create({
         paddingHorizontal: 10
     },
     formContainer: {
-        flex: 1,
         padding: 20,
         borderRadius: 26,
         borderWidth: 1.5,
@@ -51,7 +50,9 @@ export const PageStyles = StyleSheet.create({
         marginVertical: 10,
     },
     textInput: {
-        flex: 1
+        flex: 1,
+        fontSize: 16,
+        fontWeight: 500
     },
     errorText: {
         color: 'red',
@@ -63,5 +64,37 @@ export const PageStyles = StyleSheet.create({
         gap: 6,
         alignSelf: 'center',
         marginTop: 15
+    },
+    line: {
+        height: 1,
+        flex: 1
+    },
+    continueWith: {
+        flexDirection: 'row',
+        marginVertical: 30,
+        alignItems: 'center'
+    },
+    authOptionContainer: {
+        flex: 1,
+        gap: 20,
+        marginBottom: 30
+    },
+    authOptionButton: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 15,
+        borderWidth: 2,
+        borderRadius: 16,
+        height: 56,
+    },
+    authIcon: {
+        width: 24,
+        height: 24
+    },
+    authText: {
+        fontSize: 20,
+        fontWeight: '500'
     }
 })

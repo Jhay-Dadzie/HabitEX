@@ -66,12 +66,13 @@ const styles = StyleSheet.create({
   },
   link: {
     lineHeight: 30,
-    fontSize: 16,
+    fontSize: 18,
     color: '#0a7ea4',
+    fontWeight: 500
   },
   placeholderText: {
     color: '#fff',
-        fontSize: 18,
-        fontWeight: 600
+    fontSize: 18,
+    fontWeight: 600
   }
 });
