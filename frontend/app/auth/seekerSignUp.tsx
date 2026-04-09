@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { PageStyles } from '@/components/globalStyles/pageStyles'
 import Button from '@/components/button'
-import { Link, useRouter } from 'expo-router'
+import { useRouter } from 'expo-router'
 import { Colors } from '@/constants/theme'
 import { useColorScheme } from '@/hooks/use-color-scheme'
 import { Eye, EyeClosed, LockKeyhole, Mail, Phone, UserRound } from 'lucide-react-native'
@@ -268,9 +268,9 @@ export default function SeekerSignUp() {
 
                     <ThemedView style={PageStyles.bottomFormText}>
                         <ThemedText type='description'>Already have an account?</ThemedText>
-                        <Link href={'/auth'} asChild>
+                        <Pressable onPress={() => router.replace('/auth')}>
                             <ThemedText type='link'>Login</ThemedText>
-                        </Link>
+                        </Pressable>
                     </ThemedView>
                 </ScrollView>
             </KeyboardAvoidingView>

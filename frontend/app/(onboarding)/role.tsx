@@ -19,7 +19,7 @@ export default function Role() {
   
   const navigateToScreen = () => {
     if (selectedRole === 'landlord') {
-      router.push('/auth/(landlordAuth)')
+      router.push('/auth/landlordSignUp')
     } else {
       router.push('/auth/seekerSignUp')
     }

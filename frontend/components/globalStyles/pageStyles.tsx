@@ -96,5 +96,12 @@ export const PageStyles = StyleSheet.create({
     authText: {
         fontSize: 20,
         fontWeight: '500'
-    }
+    },
+    progressIndicatorTitle: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        
+    },
 })

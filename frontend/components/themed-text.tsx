@@ -67,7 +67,6 @@ const styles = StyleSheet.create({
   link: {
     lineHeight: 30,
     fontSize: 18,
-    color: '#0a7ea4',
     fontWeight: 500
   },
   placeholderText: {

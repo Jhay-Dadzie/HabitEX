@@ -13,8 +13,8 @@ export default function LandlordAuthLayout() {
                 headerStyle: tabStyle.headerStyle,
                 headerTitleAlign: 'center'
             }}>
-                <Stack.Screen name="index" options={{
-                    headerTitle: "Sign Up",
+                <Stack.Screen name="landlordSignUp" options={{
+                    headerTitle: "Landlord Sign Up",
                     headerBackVisible: false
                 }} />
                 <Stack.Screen name="cardIdentity" options={{
