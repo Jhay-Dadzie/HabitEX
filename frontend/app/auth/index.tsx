@@ -148,7 +148,7 @@ export default function Login() {
 
             <ThemedView style={PageStyles.bottomFormText}>
                 <ThemedText type='description'>Don't have an account?</ThemedText>
-                <ThemedText type='link' onPress={() => router.replace('/(onboarding)/role')}>Signup</ThemedText>
+                <ThemedText type='link' onPress={() => router.replace('/(onboarding)/role')} style={{color: colorThemeRenderer.link}}>Signup</ThemedText>
             </ThemedView>
         </ScrollView>
       </KeyboardAvoidingView>

@@ -3,6 +3,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Colors } from '@/constants/theme';
+import usePageThemeRender from '@/components/globalStyles/pageThemeRender';
 import Button  from '@/components/button';
 import usePageStyles from '@/components/globalStyles/pageThemeRender';
 import {
@@ -55,7 +56,8 @@ export default function OnboardingScreen() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef<FlatList>(null);
   const dotAnimations = useRef(slides.map(() => new Animated.Value(0))).current;
-
+  // const colorThemeRenderer = usePageThemeRender()
+  
   useEffect(() => {
     slides.forEach((_, index) => {
       Animated.timing(dotAnimations[index], {
@@ -94,7 +96,7 @@ export default function OnboardingScreen() {
       <ThemedView style={styles.header}>
         <ThemedText style={styles.logo}>Haven</ThemedText>
         <Link href={'/role'} asChild>
-          <ThemedText type='link'>Skip</ThemedText>
+          <ThemedText type='link' style={{color: colorThemeRenderer.link}}>Skip</ThemedText>
         </Link>
         
       </ThemedView>
@@ -146,7 +148,7 @@ export default function OnboardingScreen() {
 
       {
         currentIndex === 2 && (
-          <ThemedView style={{marginTop: 30}}>
+          <ThemedView style={{marginTop: 30, marginHorizontal: 20}}>
             <Button action={() => router.push('/role')}>
               <ThemedText type='placeholderText'>Get Started</ThemedText>
               <MoveRight color={'#fff'}/>
