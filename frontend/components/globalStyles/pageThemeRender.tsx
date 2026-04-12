@@ -11,7 +11,9 @@ export default function usePageThemeRender() {
             borderColor: light ? Colors.light.borderColor : Colors.dark.borderColor,
             fontColor: light ? Colors.light.text : Colors.dark.text,
             label: light ? '#334155' : Colors.dark.text,
-            link: light ? Colors.light.contrastColor : Colors.dark.tint
+            link: light ? Colors.light.contrastColor : Colors.dark.tint,
+            secondaryBackground: light ? "#F8FAFC" : "#1E293B",
+            iconContainer: light ? "#bcc5d2" : "#2c3d58"
         }
     )
 }

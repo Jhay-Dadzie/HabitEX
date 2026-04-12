@@ -97,7 +97,7 @@ export default function SeekerSignUp() {
                         <ThemedText style={[PageStyles.label, {color: colorThemeRenderer.label}]}>Full Name</ThemedText>
                         <ThemedView style={[PageStyles.inputContainer, {
                             borderColor: error.fullName ? 'red' : colorThemeRenderer.borderColor,
-                            backgroundColor: colorScheme === 'light' ? '#F8FAFC' : '#1E293B'
+                            backgroundColor: colorThemeRenderer.secondaryBackground
                         }]}>
                             <UserRound size={24} color={Colors[colorScheme ?? 'light'].icon}/>
                             <TextInput style={[PageStyles.textInput, {

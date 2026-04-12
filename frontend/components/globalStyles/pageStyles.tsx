@@ -32,7 +32,7 @@ export const PageStyles = StyleSheet.create({
         paddingRight: 10,
     },
     label: {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 500,
     },
     inputContainer: {
