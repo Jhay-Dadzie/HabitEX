@@ -18,7 +18,6 @@ interface UploadBoxProps {
     icon: React.ReactNode;
     onPress: () => void;
     hasFile: boolean;
-    // ── NEW: pass the actual URI so the box can render a preview ──
     fileUri: string | null;
 }
 
@@ -33,7 +32,6 @@ const UploadBox: React.FC<UploadBoxProps> = ({
     const colorThemeRenderer = usePageThemeRender()
     const colorScheme = useColorScheme()
 
-    // ── When an image is selected, fill the container with a preview + retake badge ──
     if (fileUri) {
         return (
             <TouchableOpacity
@@ -51,7 +49,6 @@ const UploadBox: React.FC<UploadBoxProps> = ({
                     style={styles.previewImage}
                     resizeMode='cover'
                 />
-                {/* Retake badge — sits at the bottom of the preview */}
                 <ThemedView style={styles.retakeBadge}>
                     <RefreshCw color={'#fff'} size={14} />
                     <ThemedText style={styles.retakeText}>Tap to retake</ThemedText>
@@ -60,7 +57,6 @@ const UploadBox: React.FC<UploadBoxProps> = ({
         )
     }
 
-    // ── Empty state: original dashed placeholder ──
     return (
         <TouchableOpacity
             style={[styles.idCardContainer, {
@@ -215,7 +211,7 @@ export default function CardIdentity() {
                             icon={<Icon />}
                             onPress={() => handlePickImage('front')}
                             hasFile={!!frontFile}
-                            fileUri={frontFile}   // ── NEW
+                            fileUri={frontFile}
                         />
                     </ThemedView>
 
@@ -229,7 +225,7 @@ export default function CardIdentity() {
                             icon={<Icon />}
                             onPress={() => handlePickImage('back')}
                             hasFile={!!backFile}
-                            fileUri={backFile}    // ── NEW
+                            fileUri={backFile}
                         />
                     </ThemedView>
                 </ThemedView>
@@ -273,19 +269,17 @@ const styles = StyleSheet.create({
         paddingVertical: 50,
         paddingHorizontal: 20,
     },
-    // ── Filled state: solid green border, no internal padding (image fills it) ──
+    
     idContainerActive: {
         borderWidth: 2,
         borderStyle: 'solid',
         borderColor: '#10B981',
     },
-    // ── Preview image fills the whole container ──
     previewImage: {
         width: '100%',
         height: 180,
-        borderRadius: 18,   // 20 - 2 (border width) so it hugs the border cleanly
+        borderRadius: 18,
     },
-    // ── Semi-transparent retake strip at the bottom of the preview ──
     retakeBadge: {
         position: 'absolute',
         bottom: 0,
