@@ -1,14 +1,14 @@
-import { StyleSheet, Dimensions, Alert, TouchableOpacity, ScrollView, Platform, ActionSheetIOS } from 'react-native'
+import { StyleSheet, Dimensions, Alert, TouchableOpacity, ScrollView, ActionSheetIOS, Platform, Image } from 'react-native'
 import { ThemedText } from '@/components/themed-text'
 import { ThemedView } from '@/components/themed-view'
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { PageStyles } from '@/components/globalStyles/pageStyles'
 import Button from '@/components/button'
 import { useRouter } from 'expo-router'
 import { Colors } from '@/constants/theme'
 import usePageThemeRender from '@/components/globalStyles/pageThemeRender'
 import { useColorScheme } from '@/hooks/use-color-scheme'
-import { CircleCheckBig, MoveRight, Upload } from 'lucide-react-native'
+import { CircleCheckBig, MoveRight, Upload, RefreshCw } from 'lucide-react-native'
 import * as Progress from 'react-native-progress'
 import * as ImagePicker from 'expo-image-picker'
 
@@ -18,6 +18,8 @@ interface UploadBoxProps {
     icon: React.ReactNode;
     onPress: () => void;
     hasFile: boolean;
+    // ── NEW: pass the actual URI so the box can render a preview ──
+    fileUri: string | null;
 }
 
 const UploadBox: React.FC<UploadBoxProps> = ({
@@ -26,24 +28,54 @@ const UploadBox: React.FC<UploadBoxProps> = ({
     icon,
     onPress,
     hasFile,
+    fileUri,
+}) => {
+    const colorThemeRenderer = usePageThemeRender()
+    const colorScheme = useColorScheme()
 
-}) => (
-    <TouchableOpacity
-        style={[styles.idCardContainer,
-            hasFile && styles.idContainerActive,
-            {
-                borderColor: usePageThemeRender().borderColor,
-                backgroundColor: usePageThemeRender().secondaryBackground
-            }
-        ]}
-        onPress={onPress}
-        activeOpacity={0.7}
-    >
-        {icon}
-        <ThemedText type='subtitle'>{label}</ThemedText>
-        <ThemedText type='description'>{subtitle}</ThemedText>
-    </TouchableOpacity>
-)
+    // ── When an image is selected, fill the container with a preview + retake badge ──
+    if (fileUri) {
+        return (
+            <TouchableOpacity
+                style={[styles.idCardContainer, styles.idContainerActive, {
+                    borderColor: '#10B981',
+                    borderStyle: 'solid',
+                    padding: 0,
+                    overflow: 'hidden',
+                }]}
+                onPress={onPress}
+                activeOpacity={0.85}
+            >
+                <Image
+                    source={{ uri: fileUri }}
+                    style={styles.previewImage}
+                    resizeMode='cover'
+                />
+                {/* Retake badge — sits at the bottom of the preview */}
+                <ThemedView style={styles.retakeBadge}>
+                    <RefreshCw color={'#fff'} size={14} />
+                    <ThemedText style={styles.retakeText}>Tap to retake</ThemedText>
+                </ThemedView>
+            </TouchableOpacity>
+        )
+    }
+
+    // ── Empty state: original dashed placeholder ──
+    return (
+        <TouchableOpacity
+            style={[styles.idCardContainer, {
+                borderColor: colorThemeRenderer.borderColor,
+                backgroundColor: colorThemeRenderer.secondaryBackground,
+            }]}
+            onPress={onPress}
+            activeOpacity={0.7}
+        >
+            {icon}
+            <ThemedText type='subtitle'>{label}</ThemedText>
+            <ThemedText type='description'>{subtitle}</ThemedText>
+        </TouchableOpacity>
+    )
+}
 
 const requirements = [
     'Not expired and valid',
@@ -60,17 +92,15 @@ export default function CardIdentity() {
     const [frontFile, setFrontFile] = useState<string | null>(null);
     const [backFile, setBackFile] = useState<string | null>(null);
 
-    const Icon = () => {
-        return (
-            <ThemedView style={[styles.iconContainer, {
-                backgroundColor: colorThemeRenderer.iconContainer
-            }]}>
-                <Upload color={Colors[colorScheme ?? 'light'].tint}/>
-            </ThemedView>
-        )
-    }
+    const Icon = () => (
+        <ThemedView style={[styles.iconContainer, {
+            backgroundColor: colorThemeRenderer.iconContainer
+        }]}>
+            <Upload color={Colors[colorScheme ?? 'light'].tint} />
+        </ThemedView>
+    )
 
-    const handlePickImage = async (side: 'front' | 'back') => {
+    const handlePickImage = (side: 'front' | 'back') => {
         if (Platform.OS === 'ios') {
             ActionSheetIOS.showActionSheetWithOptions(
                 {
@@ -83,7 +113,6 @@ export default function CardIdentity() {
                 }
             )
         } else {
-            // Android: Alert acts as a simple action sheet
             Alert.alert(
                 'Upload ID Card',
                 'Choose an option',
@@ -98,49 +127,37 @@ export default function CardIdentity() {
 
     const openCamera = async (side: 'front' | 'back') => {
         const permission = await ImagePicker.requestCameraPermissionsAsync()
-
         if (!permission.granted) {
             Alert.alert('Permission required', 'Please allow access to your camera')
             return
         }
-
         const result = await ImagePicker.launchCameraAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             quality: 0.9,
         })
-
         if (!result.canceled) {
             const uri = result.assets[0].uri
-            if (side === 'front') {
-                setFrontFile(uri)
-            } else {
-                setBackFile(uri)
-            }
+            if (side === 'front') setFrontFile(uri)
+            else setBackFile(uri)
         }
     }
 
     const openGallery = async (side: 'front' | 'back') => {
         const permission = await ImagePicker.requestMediaLibraryPermissionsAsync()
-
         if (!permission.granted) {
             Alert.alert('Permission required', 'Please allow access to your gallery')
             return
         }
-
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             quality: 0.9,
         })
-
         if (!result.canceled) {
             const uri = result.assets[0].uri
-            if (side === 'front') {
-                setFrontFile(uri)
-            } else {
-                setBackFile(uri)
-            }
+            if (side === 'front') setFrontFile(uri)
+            else setBackFile(uri)
         }
     }
 
@@ -158,28 +175,29 @@ export default function CardIdentity() {
 
     return (
         <ThemedView style={PageStyles.container}>
-            <ThemedView style={{marginHorizontal: 10, marginBottom: 20, gap: 10, paddingTop: 10}}>
+            <ThemedView style={{ marginHorizontal: 10, marginBottom: 20, gap: 10, paddingTop: 10 }}>
                 <ThemedView style={PageStyles.progressIndicatorTitle}>
                     <ThemedText>IDENTITY CARD UPLOAD</ThemedText>
-                    <ThemedText type='link' style={{color: colorThemeRenderer.link}}>2 of 4</ThemedText>
+                    <ThemedText type='link' style={{ color: colorThemeRenderer.link }}>2 of 4</ThemedText>
                 </ThemedView>
-
-                <Progress.Bar progress={progress}
-                    width={dimension-40}
+                <Progress.Bar
+                    progress={progress}
+                    width={dimension - 40}
                     color={Colors[colorScheme ?? 'light'].tint}
                     borderWidth={0}
                     unfilledColor={colorScheme === 'light' ? Colors.light.borderColor : Colors.light.tint}
                     animated={true}
                     animationType='timing'
-                    animationConfig={{duration: 1000}}
+                    animationConfig={{ duration: 1000 }}
                 />
-            
             </ThemedView>
 
-            <ScrollView contentContainerStyle={{paddingBottom: 35}}>
+            <ScrollView contentContainerStyle={{ paddingBottom: 35 }}>
 
-                <ThemedView style={{display: 'flex', gap: 15, marginTop: 15, marginBottom: 30}}>
-                    <ThemedText style={[PageStyles.formTitle, {color: colorThemeRenderer.oppositeTextColor}]}>Upload Identity Card</ThemedText>
+                <ThemedView style={{ display: 'flex', gap: 15, marginTop: 15, marginBottom: 30 }}>
+                    <ThemedText style={[PageStyles.formTitle, { color: colorThemeRenderer.oppositeTextColor }]}>
+                        Upload Identity Card
+                    </ThemedText>
                     <ThemedText type='description'>
                         Please provide a clear photo of the front and back of your national ID.
                         Ensure all details are legible and within the frame
@@ -188,55 +206,54 @@ export default function CardIdentity() {
 
                 <ThemedView style={[styles.main]}>
                     <ThemedView>
-                        <ThemedText style={[PageStyles.label, {color: colorThemeRenderer.label, marginBottom: 10}]}>
+                        <ThemedText style={[PageStyles.label, { color: colorThemeRenderer.label, marginBottom: 10 }]}>
                             Front Side
                         </ThemedText>
-                        <UploadBox 
+                        <UploadBox
                             label='Take a photo or upload'
                             subtitle='PNG, JPG up to 10MB'
                             icon={<Icon />}
                             onPress={() => handlePickImage('front')}
                             hasFile={!!frontFile}
+                            fileUri={frontFile}   // ── NEW
                         />
                     </ThemedView>
 
                     <ThemedView>
-                        <ThemedText style={[PageStyles.label, {color: colorThemeRenderer.label, marginBottom: 10}]}>
+                        <ThemedText style={[PageStyles.label, { color: colorThemeRenderer.label, marginBottom: 10 }]}>
                             Back Side
                         </ThemedText>
-                        <UploadBox 
+                        <UploadBox
                             label='Take a photo or upload'
                             subtitle='PNG, JPG up to 10MB'
                             icon={<Icon />}
                             onPress={() => handlePickImage('back')}
                             hasFile={!!backFile}
+                            fileUri={backFile}    // ── NEW
                         />
                     </ThemedView>
                 </ThemedView>
-                
+
                 <ThemedView style={[styles.requirementsBox, {
                     backgroundColor: colorScheme === 'light' ? '#F0FDF4' : '#626764',
                 }]}>
-                    <ThemedText style={{fontWeight: 500, color: '#10B981', marginBottom: 10}}>REQUIREMENTS</ThemedText>
-                    {
-                        requirements.map((req, index) => (
-                            <ThemedView key={index} style={[styles.requirementPoints, {
-                                backgroundColor: colorScheme === 'light' ? '#F0FDF4' : '#626764',
-                            }]}>
-                                <CircleCheckBig color={'#10B981'} />
-                                <ThemedText style={{color: colorScheme === 'light' ? '#166534' : '#10B981'}}>{req}</ThemedText>
-                            </ThemedView>
-                        ))
-                    }
+                    <ThemedText style={{ fontWeight: 500, color: '#10B981', marginBottom: 10 }}>REQUIREMENTS</ThemedText>
+                    {requirements.map((req, index) => (
+                        <ThemedView key={index} style={[styles.requirementPoints, {
+                            backgroundColor: colorScheme === 'light' ? '#F0FDF4' : '#626764',
+                        }]}>
+                            <CircleCheckBig color={'#10B981'} />
+                            <ThemedText style={{ color: colorScheme === 'light' ? '#166534' : '#10B981' }}>{req}</ThemedText>
+                        </ThemedView>
+                    ))}
                 </ThemedView>
-
 
                 <Button action={handleSubmit} disabled={!frontFile || !backFile}>
                     <ThemedText type='placeholderText'>Next Step</ThemedText>
                     <MoveRight color={'#fff'} />
                 </Button>
-            </ScrollView>
 
+            </ScrollView>
         </ThemedView>
     )
 }
@@ -245,7 +262,7 @@ const styles = StyleSheet.create({
     main: {
         flex: 1,
         gap: 25,
-        marginBottom: 25
+        marginBottom: 25,
     },
     idCardContainer: {
         borderWidth: 2,
@@ -256,13 +273,41 @@ const styles = StyleSheet.create({
         paddingVertical: 50,
         paddingHorizontal: 20,
     },
+    // ── Filled state: solid green border, no internal padding (image fills it) ──
     idContainerActive: {
-        
+        borderWidth: 2,
+        borderStyle: 'solid',
+        borderColor: '#10B981',
+    },
+    // ── Preview image fills the whole container ──
+    previewImage: {
+        width: '100%',
+        height: 180,
+        borderRadius: 18,   // 20 - 2 (border width) so it hugs the border cleanly
+    },
+    // ── Semi-transparent retake strip at the bottom of the preview ──
+    retakeBadge: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 6,
+        paddingVertical: 10,
+        backgroundColor: 'rgba(0,0,0,0.45)',
+        borderBottomLeftRadius: 18,
+        borderBottomRightRadius: 18,
+    },
+    retakeText: {
+        color: '#fff',
+        fontSize: 13,
     },
     iconContainer: {
         padding: 15,
-        borderRadius: '100%',
-        marginBottom: 20
+        borderRadius: 9999,
+        marginBottom: 20,
     },
     requirementsBox: {
         borderWidth: 1,
@@ -270,13 +315,13 @@ const styles = StyleSheet.create({
         marginBottom: 25,
         borderRadius: 20,
         borderColor: '#b0f7c9',
-        backgroundColor: '#F0FDF4'
+        backgroundColor: '#F0FDF4',
     },
     requirementPoints: {
         flex: 1,
         flexDirection: 'row',
         gap: 10,
         marginBottom: 10,
-        alignItems: 'center'
-    }
+        alignItems: 'center',
+    },
 })

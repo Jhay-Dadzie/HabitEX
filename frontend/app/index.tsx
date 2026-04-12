@@ -1,17 +1,12 @@
-import { Text, View } from "react-native";
-import { ThemedText } from "@/components/themed-text";
-import { ThemedView } from "@/components/themed-view";
+import { useEffect } from "react";
+import { useRouter } from "expo-router";
 
 export default function Index() {
-  return (
-    <ThemedView
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <ThemedText>Edit app/index.tsx to edit this screen.</ThemedText>
-    </ThemedView>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace("/(onboarding)");
+  }, [router]);
+
+  return null;
 }
