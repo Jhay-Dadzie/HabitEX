@@ -36,7 +36,7 @@ const UploadBox: React.FC<UploadBoxProps> = ({
         return (
             <TouchableOpacity
                 style={[styles.idCardContainer, styles.idContainerActive, {
-                    borderColor: '#10B981',
+                    borderColor: Colors[colorScheme ?? 'light'].tint,
                     borderStyle: 'solid',
                     padding: 0,
                     overflow: 'hidden',
@@ -273,7 +273,6 @@ const styles = StyleSheet.create({
     idContainerActive: {
         borderWidth: 2,
         borderStyle: 'solid',
-        borderColor: '#10B981',
     },
     previewImage: {
         width: '100%',

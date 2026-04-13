@@ -96,7 +96,7 @@ export default function Login() {
                     </ThemedView>
                 </ThemedView>
 
-                <ThemedText type='link' style={{marginTop: -10, marginBottom: 20, alignSelf: 'flex-end'}}
+                <ThemedText type='link' style={{marginTop: -10, marginBottom: 20, alignSelf: 'flex-end', color: colorThemeRenderer.link}}
                     onPress={() => router.push('/')}
                 >
                     Forgot Password?
