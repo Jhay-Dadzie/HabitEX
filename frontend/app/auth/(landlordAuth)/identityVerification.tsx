@@ -215,13 +215,12 @@ export default function IdentityVerification() {
 
                 {/* ── Tips box ── */}
                 <ThemedView style={[styles.tipsBox, {
-                    backgroundColor: colorScheme === 'light' ? '#F5F5FF' : '#1e1e2e',
-                    borderColor: Colors[colorScheme ?? 'light'].tint + '44',
+                    backgroundColor: colorScheme === 'light' ? '#F0FDF4' : '#626764',
                 }]}>
-                    <Lightbulb color={Colors[colorScheme ?? 'light'].tint} style={{ marginTop: 2 }} />
+                    <Lightbulb color={'#10B981'} style={{ marginTop: 2 }} />
                     <ThemedView style={{ flex: 1, gap: 3, backgroundColor: 'transparent' }}>
-                        <ThemedText style={{ fontWeight: '500' }}>Tips for success</ThemedText>
-                        <ThemedText type='description'>
+                        <ThemedText style={{ fontWeight: '500', color: '#10B981' }}>Tips for success</ThemedText>
+                        <ThemedText type='description' style={{color: colorScheme === 'light' ? '#166534' : '#10B981'}}>
                             Make sure you're in a well-lit area and remove any hats or sunglasses.
                         </ThemedText>
                     </ThemedView>
@@ -341,5 +340,6 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         padding: 14,
         marginBottom: 24,
+        borderColor: '#b0f7c9'
     },
 })
