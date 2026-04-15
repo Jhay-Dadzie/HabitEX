@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions, Alert, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Dimensions, Alert, TouchableOpacity, View, Image, ScrollView } from 'react-native'
 import { ThemedText } from '@/components/themed-text'
 import { ThemedView } from '@/components/themed-view'
 import React, { useState, useEffect, useRef } from 'react'
@@ -25,39 +25,29 @@ export default function IdentityVerification() {
     const [permission, requestPermission] = useCameraPermissions()
     const cameraRef = useRef<CameraView>(null)
 
-    // ── Dimensions ──
     const FRAME_WIDTH = dimension - 48
     const FRAME_HEIGHT = FRAME_WIDTH * 1.1
 
-    useEffect(() => {
-        setProgress(0.75)
-    }, [])
+    useEffect(() => { setProgress(0.75) }, [])
 
-    // ── Request camera permission on mount ──
     useEffect(() => {
-        if (!permission?.granted) {
-            requestPermission()
-        }
+        if (!permission?.granted) requestPermission()
     }, [])
 
     const handleFlip = () => {
         setFacing(prev => (prev === 'front' ? 'back' : 'front'))
     }
 
-    // ── Capture from camera ──
     const handleCapture = async () => {
         if (!cameraRef.current) return
         try {
             const photo = await cameraRef.current.takePictureAsync({ quality: 0.9 })
-            if (photo?.uri) {
-                setCapturedUri(photo.uri)
-            }
+            if (photo?.uri) setCapturedUri(photo.uri)
         } catch {
             Alert.alert('Error', 'Failed to capture photo. Please try again.')
         }
     }
 
-    // ── Upload from gallery ──
     const handleUpload = async () => {
         const perm = await ImagePicker.requestMediaLibraryPermissionsAsync()
         if (!perm.granted) {
@@ -69,9 +59,7 @@ export default function IdentityVerification() {
             allowsEditing: true,
             quality: 0.9,
         })
-        if (!result.canceled) {
-            setCapturedUri(result.assets[0].uri)
-        }
+        if (!result.canceled) setCapturedUri(result.assets[0].uri)
     }
 
     const handleRetake = () => setCapturedUri(null)
@@ -87,7 +75,7 @@ export default function IdentityVerification() {
     return (
         <ThemedView style={PageStyles.container}>
 
-            {/* ── Progress bar ── */}
+            {/* ── Progress bar (outside scroll so it stays pinned at top) ── */}
             <ThemedView style={{ marginHorizontal: 10, marginBottom: 20, gap: 10, paddingTop: 10 }}>
                 <ThemedView style={PageStyles.progressIndicatorTitle}>
                     <ThemedText>TAKE SELFIE</ThemedText>
@@ -105,153 +93,152 @@ export default function IdentityVerification() {
                 />
             </ThemedView>
 
-            {/* ── Title + description ── */}
-            <ThemedView style={{ gap: 10, marginBottom: 24 }}>
-                <ThemedText style={[PageStyles.formTitle, { color: colorThemeRenderer.oppositeTextColor }]}>
-                    Selfie Verification
-                </ThemedText>
-                <ThemedText type='description'>
-                    Please position your face within the frame.
-                    This ensures you're the owner of the provided documents.
-                </ThemedText>
-            </ThemedView>
-
-            {/* ── Camera / Preview frame ── */}
-            <ThemedView style={[styles.frameOuter, {
-                width: FRAME_WIDTH,
-                height: FRAME_HEIGHT,
-                borderColor: Colors[colorScheme ?? 'light'].tint,
-                backgroundColor: colorScheme === 'light' ? '#F0EFFA' : '#1e1e2e',
-                alignSelf: 'center',
-            }]}>
-
-                {capturedUri ? (
-                    /* ── Preview mode ── */
-                    <>
-                        <ThemedView style={styles.cameraFill}>
-                            {/* Using Image for preview */}
-                            <ThemedView style={{ flex: 1, borderRadius: 20, overflow: 'hidden' }}>
-                                <CameraView style={{ flex: 1 }} />
-                            </ThemedView>
-                        </ThemedView>
-                        {/* Oval overlay */}
-                        <View style={styles.ovalOverlay} pointerEvents='none'>
-                            <View style={[styles.oval, { borderColor: Colors[colorScheme ?? 'light'].tint }]} />
-                        </View>
-                        {/* Pill label */}
-                        <View style={[styles.pillLabel, { backgroundColor: Colors[colorScheme ?? 'light'].tint }]}>
-                            <ThemedText style={styles.pillText}>Photo captured — retake below</ThemedText>
-                        </View>
-                    </>
-                ) : (
-                    /* ── Live camera mode ── */
-                    <>
-                        {permission?.granted ? (
-                            <CameraView
-                                ref={cameraRef}
-                                style={styles.cameraFill}
-                                facing={facing}
-                            />
-                        ) : (
-                            /* ── Permission not granted: static placeholder ── */
-                            <ThemedView style={[styles.cameraFill, styles.placeholderFill, {
-                                backgroundColor: colorScheme === 'light' ? '#E8E7F6' : '#2a2a3e',
-                            }]}>
-                                {/* Face silhouette icon */}
-                                <ThemedView style={[styles.faceIconWrap, {
-                                    borderColor: Colors[colorScheme ?? 'light'].tint + '55',
-                                }]}>
-                                    <Upload
-                                        color={Colors[colorScheme ?? 'light'].tint}
-                                        size={36}
-                                        style={{ opacity: 0.5 }}
-                                    />
-                                </ThemedView>
-                            </ThemedView>
-                        )}
-
-                        {/* Oval overlay on top of camera */}
-                        <View style={styles.ovalOverlay} pointerEvents='none'>
-                            <View style={[styles.oval, { borderColor: Colors[colorScheme ?? 'light'].tint }]} />
-                        </View>
-
-                        {/* "Center your face" pill */}
-                        <View style={[styles.pillLabel, { backgroundColor: Colors[colorScheme ?? 'light'].tint }]}>
-                            <ThemedText style={styles.pillText}>Center your face in the oval</ThemedText>
-                        </View>
-                    </>
-                )}
-            </ThemedView>
-
-            {/* ── Camera controls row ── */}
-            <ThemedView style={styles.controlsRow}>
-
-                {/* Upload */}
-                <TouchableOpacity style={styles.controlBtn} onPress={handleUpload} activeOpacity={0.7}>
-                    <ThemedView style={[styles.controlIconWrap, {
-                        backgroundColor: colorThemeRenderer.secondaryBackground,
-                        borderColor: colorThemeRenderer.borderColor,
-                    }]}>
-                        <Upload color={colorThemeRenderer.label} />
-                    </ThemedView>
-                    <ThemedText style={styles.controlLabel}>UPLOAD</ThemedText>
-                </TouchableOpacity>
-
-                {/* Shutter / Retake */}
-                <TouchableOpacity
-                    style={styles.shutterBtn}
-                    onPress={capturedUri ? handleRetake : handleCapture}
-                    activeOpacity={0.8}
-                >
-                    <View style={[styles.shutterOuter, { borderColor: Colors[colorScheme ?? 'light'].tint + '55' }]}>
-                        <View style={[styles.shutterInner, { backgroundColor: Colors[colorScheme ?? 'light'].tint }]}>
-                            {capturedUri
-                                ? <RefreshCw color='#fff' size={22} />
-                                : <Camera size={35} color={'#fff'}/>
-                            }
-                        </View>
-                    </View>
-                </TouchableOpacity>
-
-                {/* Flip */}
-                <TouchableOpacity style={styles.controlBtn} onPress={handleFlip} activeOpacity={0.7}>
-                    <ThemedView style={[styles.controlIconWrap, {
-                        backgroundColor: colorThemeRenderer.secondaryBackground,
-                        borderColor: colorThemeRenderer.borderColor,
-                    }]}>
-                        <RefreshCw color={colorThemeRenderer.label} size={20} />
-                    </ThemedView>
-                    <ThemedText style={styles.controlLabel}>FLIP</ThemedText>
-                </TouchableOpacity>
-
-            </ThemedView>
-
-            {/* ── Tips box ── */}
-            <ThemedView style={[styles.tipsBox, {
-                backgroundColor: colorScheme === 'light' ? '#F5F5FF' : '#1e1e2e',
-                borderColor: Colors[colorScheme ?? 'light'].tint + '44',
-            }]}>
-                <Lightbulb color={Colors[colorScheme ?? 'light'].tint} style={{ marginTop: 2 }} />
-                <ThemedView style={{ flex: 1, gap: 3, backgroundColor: 'transparent' }}>
-                    <ThemedText style={{ fontWeight: '500' }}>Tips for success</ThemedText>
+            <ScrollView
+                contentContainerStyle={{ paddingBottom: 35 }}
+                showsVerticalScrollIndicator={false}
+            >
+                {/* ── Title + description ── */}
+                <ThemedView style={{ gap: 10, marginBottom: 24 }}>
+                    <ThemedText style={[PageStyles.formTitle, { color: colorThemeRenderer.oppositeTextColor }]}>
+                        Selfie Verification
+                    </ThemedText>
                     <ThemedText type='description'>
-                        Make sure you're in a well-lit area and remove any hats or sunglasses.
+                        Please position your face within the frame.
+                        This ensures you're the owner of the provided documents.
                     </ThemedText>
                 </ThemedView>
-            </ThemedView>
 
-            {/* ── Next step button ── */}
-            <Button action={handleSubmit} disabled={!capturedUri}>
-                <ThemedText type='placeholderText'>Next Step</ThemedText>
-                <MoveRight color={'#fff'} />
-            </Button>
+                {/* ── Camera / Preview frame ── */}
+                <ThemedView style={[styles.frameOuter, {
+                    width: FRAME_WIDTH,
+                    height: FRAME_HEIGHT,
+                    borderColor: Colors[colorScheme ?? 'light'].tint,
+                    backgroundColor: colorScheme === 'light' ? '#F0EFFA' : '#1e1e2e',
+                    alignSelf: 'center',
+                }]}>
 
+                    {capturedUri ? (
+                        // ── FIX: use <Image> to show the captured/uploaded photo ──
+                        <>
+                            <Image
+                                source={{ uri: capturedUri }}
+                                style={styles.cameraFill}
+                                resizeMode='cover'
+                            />
+                            {/* Oval overlay */}
+                            <View style={styles.ovalOverlay} pointerEvents='none'>
+                                <View style={[styles.oval, { borderColor: '#fff' }]} />
+                            </View>
+                            {/* Pill label */}
+                            <View style={[styles.pillLabel, { backgroundColor: Colors[colorScheme ?? 'light'].tint }]}>
+                                <ThemedText style={styles.pillText}>Photo captured — retake below</ThemedText>
+                            </View>
+                        </>
+                    ) : (
+                        // ── Live camera (or placeholder if permission denied) ──
+                        <>
+                            {permission?.granted ? (
+                                <CameraView
+                                    ref={cameraRef}
+                                    style={styles.cameraFill}
+                                    facing={facing}
+                                />
+                            ) : (
+                                <ThemedView style={[styles.cameraFill, styles.placeholderFill, {
+                                    backgroundColor: colorScheme === 'light' ? '#E8E7F6' : '#2a2a3e',
+                                }]}>
+                                    <ThemedView style={[styles.faceIconWrap, {
+                                        borderColor: Colors[colorScheme ?? 'light'].tint + '55',
+                                    }]}>
+                                        <Camera
+                                            color={Colors[colorScheme ?? 'light'].tint}
+                                            size={36}
+                                        />
+                                    </ThemedView>
+                                </ThemedView>
+                            )}
+
+                            {/* Oval overlay */}
+                            <View style={styles.ovalOverlay} pointerEvents='none'>
+                                <View style={[styles.oval, { borderColor: Colors[colorScheme ?? 'light'].tint }]} />
+                            </View>
+                            {/* Pill label */}
+                            <View style={[styles.pillLabel, { backgroundColor: Colors[colorScheme ?? 'light'].tint }]}>
+                                <ThemedText style={styles.pillText}>Center your face in the oval</ThemedText>
+                            </View>
+                        </>
+                    )}
+                </ThemedView>
+
+                {/* ── Camera controls row ── */}
+                <ThemedView style={styles.controlsRow}>
+
+                    {/* Upload */}
+                    <TouchableOpacity style={styles.controlBtn} onPress={handleUpload} activeOpacity={0.7}>
+                        <ThemedView style={[styles.controlIconWrap, {
+                            backgroundColor: colorThemeRenderer.secondaryBackground,
+                            borderColor: colorThemeRenderer.borderColor,
+                        }]}>
+                            <Upload color={colorThemeRenderer.label} />
+                        </ThemedView>
+                        <ThemedText style={styles.controlLabel}>UPLOAD</ThemedText>
+                    </TouchableOpacity>
+
+                    {/* Shutter / Retake */}
+                    <TouchableOpacity
+                        style={styles.shutterBtn}
+                        onPress={capturedUri ? handleRetake : handleCapture}
+                        activeOpacity={0.8}
+                    >
+                        <View style={[styles.shutterOuter, { borderColor: Colors[colorScheme ?? 'light'].tint + '55' }]}>
+                            <View style={[styles.shutterInner, { backgroundColor: Colors[colorScheme ?? 'light'].tint }]}>
+                                {capturedUri
+                                    ? <RefreshCw color='#fff' size={22} />
+                                    : <Camera size={28} color='#fff' />
+                                }
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+
+                    {/* Flip */}
+                    <TouchableOpacity style={styles.controlBtn} onPress={handleFlip} activeOpacity={0.7}>
+                        <ThemedView style={[styles.controlIconWrap, {
+                            backgroundColor: colorThemeRenderer.secondaryBackground,
+                            borderColor: colorThemeRenderer.borderColor,
+                        }]}>
+                            <RefreshCw color={colorThemeRenderer.label} size={20} />
+                        </ThemedView>
+                        <ThemedText style={styles.controlLabel}>FLIP</ThemedText>
+                    </TouchableOpacity>
+
+                </ThemedView>
+
+                {/* ── Tips box ── */}
+                <ThemedView style={[styles.tipsBox, {
+                    backgroundColor: colorScheme === 'light' ? '#F5F5FF' : '#1e1e2e',
+                    borderColor: Colors[colorScheme ?? 'light'].tint + '44',
+                }]}>
+                    <Lightbulb color={Colors[colorScheme ?? 'light'].tint} style={{ marginTop: 2 }} />
+                    <ThemedView style={{ flex: 1, gap: 3, backgroundColor: 'transparent' }}>
+                        <ThemedText style={{ fontWeight: '500' }}>Tips for success</ThemedText>
+                        <ThemedText type='description'>
+                            Make sure you're in a well-lit area and remove any hats or sunglasses.
+                        </ThemedText>
+                    </ThemedView>
+                </ThemedView>
+
+                {/* ── Next step button ── */}
+                <Button action={handleSubmit} disabled={!capturedUri}>
+                    <ThemedText type='placeholderText'>Next Step</ThemedText>
+                    <MoveRight color={'#fff'} />
+                </Button>
+
+            </ScrollView>
         </ThemedView>
     )
 }
 
 const styles = StyleSheet.create({
-    // ── Frame ──
     frameOuter: {
         borderWidth: 2,
         borderStyle: 'dashed',
@@ -269,7 +256,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    // ── Oval overlay ──
     ovalOverlay: {
         ...StyleSheet.absoluteFillObject,
         alignItems: 'center',
@@ -291,7 +277,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    // ── Pill label ──
     pillLabel: {
         position: 'absolute',
         bottom: 16,
@@ -305,7 +290,6 @@ const styles = StyleSheet.create({
         fontSize: 13,
         fontWeight: '500',
     },
-    // ── Controls row ──
     controlsRow: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -330,7 +314,6 @@ const styles = StyleSheet.create({
         fontSize: 12,
         letterSpacing: 0.8,
     },
-    // ── Shutter button ──
     shutterBtn: {
         alignItems: 'center',
         justifyContent: 'center',
@@ -350,13 +333,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    shutterDot: {
-        width: 24,
-        height: 24,
-        borderRadius: 12,
-        backgroundColor: 'rgba(255,255,255,0.6)',
-    },
-    // ── Tips box ──
     tipsBox: {
         flexDirection: 'row',
         alignItems: 'flex-start',
