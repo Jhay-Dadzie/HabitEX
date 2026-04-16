@@ -236,10 +236,10 @@ export default function CardIdentity() {
                     <ThemedText style={{ fontWeight: 500, color: '#10B981', marginBottom: 10 }}>REQUIREMENTS</ThemedText>
                     {requirements.map((req, index) => (
                         <ThemedView key={index} style={[styles.requirementPoints, {
-                            backgroundColor: colorScheme === 'light' ? '#F0FDF4' : '#626764',
+                            backgroundColor: colorThemeRenderer.tipsBackground,
                         }]}>
                             <CircleCheckBig color={'#10B981'} />
-                            <ThemedText style={{ color: colorScheme === 'light' ? '#166534' : '#10B981' }}>{req}</ThemedText>
+                            <ThemedText style={{ color: colorThemeRenderer.tipsTextColor }}>{req}</ThemedText>
                         </ThemedView>
                     ))}
                 </ThemedView>

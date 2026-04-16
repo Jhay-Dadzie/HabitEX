@@ -75,7 +75,6 @@ export default function IdentityVerification() {
     return (
         <ThemedView style={PageStyles.container}>
 
-            {/* ── Progress bar (outside scroll so it stays pinned at top) ── */}
             <ThemedView style={{ marginHorizontal: 10, marginBottom: 20, gap: 10, paddingTop: 10 }}>
                 <ThemedView style={PageStyles.progressIndicatorTitle}>
                     <ThemedText>TAKE SELFIE</ThemedText>
@@ -97,7 +96,7 @@ export default function IdentityVerification() {
                 contentContainerStyle={{ paddingBottom: 35 }}
                 showsVerticalScrollIndicator={false}
             >
-                {/* ── Title + description ── */}
+                {/* Title + description */}
                 <ThemedView style={{ gap: 10, marginBottom: 24 }}>
                     <ThemedText style={[PageStyles.formTitle, { color: colorThemeRenderer.oppositeTextColor }]}>
                         Selfie Verification
@@ -108,7 +107,7 @@ export default function IdentityVerification() {
                     </ThemedText>
                 </ThemedView>
 
-                {/* ── Camera / Preview frame ── */}
+                {/* Camera / Preview frame*/}
                 <ThemedView style={[styles.frameOuter, {
                     width: FRAME_WIDTH,
                     height: FRAME_HEIGHT,
@@ -118,7 +117,6 @@ export default function IdentityVerification() {
                 }]}>
 
                     {capturedUri ? (
-                        // ── FIX: use <Image> to show the captured/uploaded photo ──
                         <>
                             <Image
                                 source={{ uri: capturedUri }}
@@ -215,12 +213,12 @@ export default function IdentityVerification() {
 
                 {/* ── Tips box ── */}
                 <ThemedView style={[styles.tipsBox, {
-                    backgroundColor: colorScheme === 'light' ? '#F0FDF4' : '#626764',
+                    backgroundColor: colorThemeRenderer.tipsBackground,
                 }]}>
                     <Lightbulb color={'#10B981'} style={{ marginTop: 2 }} />
                     <ThemedView style={{ flex: 1, gap: 3, backgroundColor: 'transparent' }}>
                         <ThemedText style={{ fontWeight: '500', color: '#10B981' }}>Tips for success</ThemedText>
-                        <ThemedText type='description' style={{color: colorScheme === 'light' ? '#166534' : '#10B981'}}>
+                        <ThemedText type='description' style={{color: colorThemeRenderer.tipsTextColor}}>
                             Make sure you're in a well-lit area and remove any hats or sunglasses.
                         </ThemedText>
                     </ThemedView>
