@@ -207,7 +207,7 @@ export default function SeekerSignUp() {
 
                 </ThemedView>
 
-                <ThemedView style={{marginVertical: 30}}>
+                <ThemedView style={{marginTop: 30}}>
                     <Button action={handleSubmit} disabled={!isValid}>
                         <ThemedText type='placeholderText'>Next Step</ThemedText>
                         <MoveRight color={'#fff'}/>
