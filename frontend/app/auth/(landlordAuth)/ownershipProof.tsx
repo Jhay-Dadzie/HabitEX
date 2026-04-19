@@ -119,7 +119,12 @@ export default function OwnershipProof() {
             return
         }
         setIsConfirmed(true)
-        Alert.alert('Confirmed', 'Your file has been selected successfully.')
+        Toast.show({
+            type: 'success',
+            text1: 'Document uploaded successfully',
+            position: 'bottom',
+            visibilityTime: 1000
+        })
     }
 
     const handleSubmit = () => {
@@ -136,9 +141,9 @@ export default function OwnershipProof() {
             type: 'success',
             text1: 'Sign up successful',
             position: 'bottom',
-            visibilityTime: 1800
+            visibilityTime: 1800,
         })
-        router.push('/(landlordScreens)')
+        router.replace('/(landlordScreens)')
     }
 
     return (
@@ -259,23 +264,6 @@ export default function OwnershipProof() {
                     )}
                 </ThemedView>
 
-                {selectedFile && (
-                    <TouchableOpacity
-                        style={[
-                            styles.reselectBtn,
-                            {
-                                borderColor: Colors[colorScheme ?? 'light'].tint,
-                            },
-                        ]}
-                        onPress={handleSelectFile}
-                        activeOpacity={0.8}
-                    >
-                        <ThemedText style={{ color: Colors[colorScheme ?? 'light'].tint, fontWeight: '600' }}>
-                            Re-select File
-                        </ThemedText>
-                    </TouchableOpacity>
-                )}
-
                 <ThemedView
                     style={[
                         styles.requirementsBox,
@@ -382,13 +370,6 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: '600',
         fontSize: 14,
-    },
-    reselectBtn: {
-        borderWidth: 1,
-        borderRadius: 14,
-        paddingVertical: 12,
-        alignItems: 'center',
-        marginBottom: 18,
     },
     requirementsBox: {
         borderWidth: 1,
