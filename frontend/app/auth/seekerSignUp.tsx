@@ -269,7 +269,7 @@ export default function SeekerSignUp() {
                     <ThemedView style={PageStyles.bottomFormText}>
                         <ThemedText type='description'>Already have an account?</ThemedText>
                         <Pressable onPress={() => router.replace('/auth')}>
-                            <ThemedText type='link'>Login</ThemedText>
+                            <ThemedText type='link' style={{color: colorThemeRenderer.link}}>Login</ThemedText>
                         </Pressable>
                     </ThemedView>
                 </ScrollView>

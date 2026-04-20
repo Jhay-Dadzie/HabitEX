@@ -377,7 +377,6 @@ const styles = StyleSheet.create({
         marginBottom: 32,
         borderRadius: 20,
         borderColor: '#b0f7c9',
-        backgroundColor: '#F0FDF4',
         gap: 4,
     },
     requirementsLabel: {
