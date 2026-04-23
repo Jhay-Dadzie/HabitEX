@@ -43,7 +43,7 @@ export const PageStyles = StyleSheet.create({
         shadowOffset: {width: 0, height: 1},
         shadowRadius: 24,
         elevation: 5,
-        paddingVertical: 10,
+        paddingVertical: 6,
         paddingLeft: 15,
         borderWidth: 1,
         borderRadius: 16,

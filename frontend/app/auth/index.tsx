@@ -42,7 +42,7 @@ export default function Login() {
             showsVerticalScrollIndicator = {false}
         >
             <ThemedView style={{display: 'flex', gap: 15, marginVertical: 30}}>
-                <ThemedText style={[PageStyles.formTitle, {color: colorThemeRenderer.oppositeTextColor}]}>Login into your account</ThemedText>
+                <ThemedText style={[PageStyles.formTitle, {color: colorThemeRenderer.oppositeTextColor}]}>Log into your account</ThemedText>
                 <ThemedText type='description'>Secure access to your santuary</ThemedText>
             </ThemedView>
 
