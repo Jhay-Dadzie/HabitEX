@@ -3,7 +3,6 @@ import {
   Image,
   ScrollView,
   View,
-  TextInput,
   TouchableOpacity,
   FlatList,
   Dimensions,
@@ -17,8 +16,9 @@ import { Colors } from '@/constants/theme'
 import usePageThemeRender from '@/components/globalStyles/pageThemeRender'
 import { useColorScheme } from '@/hooks/use-color-scheme'
 import mockData from '@/assets/data/mock_data.json'
-import { BedDouble, Bell, Heart, MapPin, SlidersHorizontal, Star } from 'lucide-react-native'
+import { BedDouble, Bell, Heart, MapPin, Star } from 'lucide-react-native'
 import { Ionicons } from "@expo/vector-icons"
+import SearchBar from '@/components/searchBar'
 
 const { width } = Dimensions.get('window')
 
@@ -64,7 +64,7 @@ function LargeCard({ item }: { item: Listing }) {
         backgroundColor: colorScheme === 'light' ? '#fff' : Colors.dark.background,
         borderColor: colorThemeRenderer.borderColor
       }]} 
-      activeOpacity={0.9}
+      activeOpacity={0.85}
     >
       {/* Single image */}
       <Image
@@ -133,7 +133,7 @@ function SmallCard({ item }: { item: Listing }) {
         backgroundColor: colorScheme === 'light' ? '#fff' : Colors.dark.background,
         borderColor: colorThemeRenderer.borderColor
       }]} 
-      activeOpacity={0.9}
+      activeOpacity={0.85}
     >
       <Image
         source={{ uri: item.image[0] }}
@@ -196,7 +196,6 @@ export default function Index() {
   const colorThemeRenderer = usePageThemeRender()
   const router = useRouter()
   const [activeFilter, setActiveFilter] = useState('All')
-  const [searchQuery, setSearchQuery] = useState('')
 
   // Filter recommended list based on active chip
   const filteredRecommended =
@@ -239,34 +238,18 @@ export default function Index() {
       </ThemedView>
 
       {/* ── Search bar ─────────────────────────────────────────────────────── */}
-      <ThemedView style={[PageStyles.searchContainer, {
-          backgroundColor: colorThemeRenderer.secondaryBackground,
-          borderColor: colorThemeRenderer.borderColor
-        }]}
-      >
-        <Ionicons name='search' size={20} color={colorThemeRenderer.icon}/>
-        <TextInput
-          style={[PageStyles.searchInput, {color: colorThemeRenderer.fontColor}]}
-          placeholder="Search city, area, or house type"
-          placeholderTextColor={colorThemeRenderer.fontColor}
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-        />
-        <TouchableOpacity style={styles.filterIconBtn}>
-          <SlidersHorizontal size={20} color={colorThemeRenderer.icon}/>
-        </TouchableOpacity>
-      </ThemedView>
+      <SearchBar editable={false} />
 
       {/* ── Filter chips ───────────────────────────────────────────────────── */}
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.filterRow}
+        contentContainerStyle={PageStyles.filterRow}
       >
         {FILTERS.map((f) => (
           <TouchableOpacity
             key={f}
-            style={[styles.chip,
+            style={[PageStyles.filters,
               activeFilter === f ? {backgroundColor: Colors[colorScheme ?? 'light'].tint} 
               : {backgroundColor: colorThemeRenderer.secondaryBackground},
               {
@@ -275,7 +258,7 @@ export default function Index() {
             onPress={() => setActiveFilter(f)}
           >
             <ThemedText
-              style={[styles.chipText,
+              style={[PageStyles.filtersText,
                 activeFilter === f ? {color: '#fff'}
                 : {color: colorThemeRenderer.secondaryFontColor},
               ]}
@@ -405,31 +388,14 @@ const styles = StyleSheet.create({
   },
 
   /* Chips */
-  filterRow: {
-    paddingHorizontal: 20,
-    gap: 10,
-    marginBottom: 20,
-  },
-  chip: {
-    paddingHorizontal: 18,
-    paddingVertical: 8,
-    borderRadius: 20,
-    borderWidth: 1,
-  },
-  chipText: {
-    fontSize: 13,
-    fontWeight: '500',
-  },
-  chipTextActive: {
-    color: '#fff',
-  },
+  
 
   /* Section header */
   sectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     marginBottom: 14,
     backgroundColor: 'transparent',
   },
@@ -440,7 +406,7 @@ const styles = StyleSheet.create({
 
   /* Horizontal lists */
   horizontalList: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     gap: 14,
     paddingBottom: 4,
     marginBottom: 24,
