@@ -105,7 +105,6 @@ export const PageStyles = StyleSheet.create({
         
     },
     searchContainer: {
-        flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
         borderRadius: 24,
@@ -117,9 +116,26 @@ export const PageStyles = StyleSheet.create({
         gap: 8,
     },
     searchInput: {
-        flex: 1,
-        fontSize: 14,
+            flex: 1,
+            fontSize: 14,
     },
+    filterRow: {
+            paddingHorizontal: 10,
+            gap: 10,
+            marginBottom: 12,
+        },
+    filters: {
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        borderRadius: 20,
+        borderWidth: 1,
+    },
+    filtersText: {
+        fontSize: 13,
+        fontWeight: '500',
+        lineHeight: 18,
+    },
+
     emptyStateContainer: {
         flex: 1,
         alignItems: 'center',
