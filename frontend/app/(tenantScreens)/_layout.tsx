@@ -26,6 +26,7 @@ export default function Layout() {
                 }}/>
                 <Tabs.Screen name="search" options={{
                     title: "Search",
+                    headerShown: false,
                     tabBarIcon: ({color}) => <Ionicons name="search" size={24} color={color}/>
                 }}/>
                 <Tabs.Screen name="wishlist" options={{
