@@ -77,7 +77,7 @@ export default function SeekerSignUp() {
                             <ThemedText style={[PageStyles.label, {color: colorThemeRenderer.label}]}>Full Name</ThemedText>
                             <ThemedView style={[PageStyles.inputContainer, {
                                 borderColor: error.fullName ? 'red' : colorThemeRenderer.borderColor,
-                                backgroundColor: colorScheme === 'light' ? '#F8FAFC' : '#1E293B'
+                                backgroundColor: colorThemeRenderer.secondaryBackground
                             }]}>
                                 <UserRound size={24} color={Colors[colorScheme ?? 'light'].icon}/>
                                 <TextInput style={[PageStyles.textInput, {
@@ -102,7 +102,7 @@ export default function SeekerSignUp() {
                             <ThemedText style={[PageStyles.label, {color: colorThemeRenderer.label}]}>Email Address</ThemedText>
                             <ThemedView style={[PageStyles.inputContainer, {
                                 borderColor: error.email ? 'red' : colorThemeRenderer.borderColor,
-                                backgroundColor: colorScheme === 'light' ? '#F8FAFC' : '#1E293B'
+                                backgroundColor: colorThemeRenderer.secondaryBackground
                             }]}>
                                 <Mail size={24} color={Colors[colorScheme ?? 'light'].icon}/>
                                 <TextInput style={[PageStyles.textInput, {
@@ -128,7 +128,7 @@ export default function SeekerSignUp() {
                             <ThemedText style={[PageStyles.label, {color: colorThemeRenderer.label}]}>Phone Number</ThemedText>
                             <ThemedView style={[PageStyles.inputContainer, {
                                 borderColor: error.phoneNumber ? 'red' : colorThemeRenderer.borderColor,
-                                backgroundColor: colorScheme === 'light' ? '#F8FAFC' : '#1E293B'
+                                backgroundColor: colorThemeRenderer.secondaryBackground
                             }]}>
                                 <Phone size={24} color={Colors[colorScheme ?? 'light'].icon}/>
                                 <TextInput style={[PageStyles.textInput, {
@@ -154,7 +154,7 @@ export default function SeekerSignUp() {
                             <ThemedText style={[PageStyles.label, {color: colorThemeRenderer.label}]}>Password</ThemedText>
                             <ThemedView style={[PageStyles.inputContainer, {
                                 borderColor: error.password ? 'red' : colorThemeRenderer.borderColor,
-                                backgroundColor: colorScheme === 'light' ? '#F8FAFC' : '#1E293B'
+                                backgroundColor: colorThemeRenderer.secondaryBackground
                             }]}>
                                 <LockKeyhole size={24} color={Colors[colorScheme ?? 'light'].icon}/>
                                 <TextInput style={[PageStyles.textInput, {
@@ -190,7 +190,7 @@ export default function SeekerSignUp() {
                             <ThemedText style={[PageStyles.label, {color: colorThemeRenderer.label}]}>Confirm Password</ThemedText>
                             <ThemedView style={[PageStyles.inputContainer, {
                                 borderColor: error.confirmPassword ? 'red' : colorThemeRenderer.borderColor,
-                                backgroundColor: colorScheme === 'light' ? '#F8FAFC' : '#1E293B'
+                                backgroundColor: colorThemeRenderer.secondaryBackground
                             }]}>
                                 <LockKeyhole size={24} color={Colors[colorScheme ?? 'light'].icon}/>
                                 <TextInput style={[PageStyles.textInput, {
