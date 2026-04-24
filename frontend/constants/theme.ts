@@ -13,7 +13,7 @@ export const Colors = {
     tabIconDefault: '#94A3B8',
     tabIconSelected: tintColorLight,
     complementaryColor: tintColorLight,
-    contrastColor: '#0F172A',
+    contrastColor: '#241A7F',
     borderColor: '#E2E8F0'
   },
   dark: {

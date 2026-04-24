@@ -42,12 +42,12 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
   defaultSemiBold: {
-    fontSize: 24,
-    lineHeight: 16,
-    fontWeight: '600',
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: '500',
   },
   title: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: 'bold',
     lineHeight: 28,
   },
@@ -66,12 +66,12 @@ const styles = StyleSheet.create({
   },
   link: {
     lineHeight: 30,
-    fontSize: 18,
-    fontWeight: 500
+    fontSize: 17,
+    fontWeight: 600
   },
   placeholderText: {
     color: '#fff',
     fontSize: 18,
     fontWeight: 600
-  }
+  },
 });

@@ -104,4 +104,36 @@ export const PageStyles = StyleSheet.create({
         justifyContent: 'space-between',
         
     },
+    searchContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderRadius: 24,
+        borderWidth: 1,
+        paddingHorizontal: 14,
+        marginHorizontal: 10,
+        marginBottom: 15,
+        height: 48,
+        gap: 8,
+    },
+    searchInput: {
+        flex: 1,
+        fontSize: 14,
+    },
+    emptyStateContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 20
+    },
+    emptyText: {
+        paddingVertical: 20,
+        fontSize: 28,
+        fontWeight: 500,
+
+    },
+    emptyStateImage: {
+        width: 150,
+        height: 150
+    }
 })
