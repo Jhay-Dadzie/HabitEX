@@ -45,7 +45,7 @@ export default function Role() {
             <Image source={require('@/assets/images/bedroom.jpg')} style={styles.image} />
 
             <ThemedView style={styles.cardText}>
-              <ThemedText type='defaultSemiBold' style={{color: colorThemeRenderer.oppositeTextColor}}>House Seeker</ThemedText>
+              <ThemedText type='subtitle' style={{color: colorThemeRenderer.oppositeTextColor}}>House Seeker</ThemedText>
               <ThemedText type='default'>Find your dream home from our curated verified listings.</ThemedText>
             </ThemedView>
 
@@ -59,7 +59,7 @@ export default function Role() {
             <Image source={require('@/assets/images/lanlord.jpg')} style={styles.image} />
 
             <ThemedView style={styles.cardText}>
-              <ThemedText type='defaultSemiBold' style={{color: colorThemeRenderer.oppositeTextColor}}>Landlord</ThemedText>
+              <ThemedText type='subtitle' style={{color: colorThemeRenderer.oppositeTextColor}}>Landlord</ThemedText>
               <ThemedText type='default'>List your property and connect with reliable tenants.</ThemedText>
             </ThemedView>
 
