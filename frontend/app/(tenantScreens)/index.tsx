@@ -238,7 +238,7 @@ export default function Index() {
       </ThemedView>
 
       {/* ── Search bar ─────────────────────────────────────────────────────── */}
-      <SearchBar editable={false} />
+      <SearchBar autoFocus={false} onPress={() => router.push('/(tenantScreens)/search')}/>
 
       {/* ── Filter chips ───────────────────────────────────────────────────── */}
       <ScrollView
